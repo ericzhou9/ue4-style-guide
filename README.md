@@ -1,4 +1,4 @@
-# [Gamemakin](https://gamemak.in) UE4 代码规范() {
+# [Gamemakin](https://gamemak.in) UE4工程规范() {
 
 *最合理的UE4规范*
 
@@ -76,7 +76,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是http://discord.gamemak.i
 > [_Rebecca Murphey_](https://rmurphey.com)
 
 <a name="0.2"></a>
-### 0.2 一个工程中所有的数据结构、资源、代码都应该看起来像是同一个人的作品，尽管有很多人为她工作
+### 0.2 不管团队中有多少人，工程中所有的数据结构、资源、代码风格应该统一，如同是同一个人的作品
 
 把资源从一个工程迁移到另一个工程不应该产生新的学习成本，所有资源应该符合项目规范，消除不必要的歧义和不确定性
 
@@ -87,7 +87,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是http://discord.gamemak.i
 
 如果你发现同事不遵守规范，你该去纠正他
 
-当你在团队中工作时，或者在社区提问时（例如[Unreal Slackers](http://join.unrealslackers.org/)），你会发现如果大家都遵守同一套规范会容易的多，没有人愿意在面对一堆乱糟糟的蓝图或者莫名其妙的代码时帮你解决问题。
+当你在团队中工作时，或者在社区提问时(例如[Unreal Slackers](http://join.unrealslackers.org/))，你会发现如果大家都遵守同一套规范会容易的多，没有人愿意在面对一堆乱糟糟的蓝图或者莫名其妙的代码时帮你解决问题。
 
 如果你要帮助的人使用另一套不同但很健全的规范，你应该去适应它，如果他们没有遵守任何规范，那么带他们来这儿。
 
@@ -113,19 +113,19 @@ Gamemakin LLC 有一个公开的讨论板块，地址是http://discord.gamemak.i
 
 <a name="base-asset-name"></a>
 <a name="1.1"></a>
-### 1.1 基本命名规则 `前缀_基本资源名_扩展名_后缀` ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
+### 1.1 基本命名规则 `Prefix_BaseAssetName_Variant_Suffix` ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
 
-所有资源都应该有一个“_基本资源名_”。所谓基本资源名表明该资源在逻辑关系上属于那种资源，任何属于该逻辑组的资源都应该遵守同样的命名规范
+时刻记住这个命名规范`Prefix_BaseAssetName_Variant_Suffix`，只要遵守它，大部分情况下都可以让命名规范。下面是详细的解释。
 
-时刻记住这个命名规范`前缀_基本资源名_变体类型_后缀`，只要遵守的足够好，在大部分情况下都可以让命名保持规范。下面是详细的解释。
+`Prefix`(前缀) 和 `Suffix`(后缀)由资源类型确定，请参照下面的[资源类型表](#asset-name-modifiers)。
 
-`前缀`(Prefix) 和 `后缀`(Suffix)由资源类型确定，请参照下面的[资源类型表](#asset-name-modifiers)。
+所有资源都应该有一个`BaseAssetName`(基本资源名)。所谓基本资源名表明该资源在逻辑关系上属于那种资源，任何属于该逻辑组的资源都应该遵守同样的命名规范
 
-`基本资源名`(BaseAssetName)应该使用简短而便于识别的词汇，例如，如果你有一个角色名字叫做Bob，那么所有和Bob相关的资源的`基本资源名`都应该叫做`Bob`
+基本资源名应该使用简短而便于识别的词汇，例如，如果你有一个角色名字叫做Bob，那么所有和Bob相关的资源的`BaseAssetName`都应该叫做`Bob`
 
-`扩展名`(Varient)用来保证资源的唯一性，同样，扩展名也应该是简短而容易理解的短词，以说明该资源在所属的资源逻辑组中的子集。例如，如果Bob有多套皮肤，那么这些皮肤资源都应该使用Bob作为基本资源名同时包含扩展名，例如'Evil'类型的皮肤资源，名字应该是`Bob_Evil`，而Retro类型的皮肤应该是用`Bob_Retro`
+`Varient`(扩展名)用来保证资源的唯一性，同样，扩展名也应该是简短而容易理解的短词，以说明该资源在所属的资源逻辑组中的子集。例如，如果Bob有多套皮肤，那么这些皮肤资源都应该使用Bob作为基本资源名同时包含扩展名，例如'Evil'类型的皮肤资源，名字应该是`Bob_Evil`，而Retro类型的皮肤应该是用`Bob_Retro`
 
-对于一般资源来说，如果仅仅是为了保证资源的唯一性，`扩展名`可以直接使用从`01`开始的两位数字来表示。例如，如果你要生成一堆环境中使用的石头资源，那么他们应该命名为`Rock_01`, `Rock_02`, `Rock_03`等等。除非特殊需要，不要让数字超过三位数，如果你真的需要超过100个的资源序列，那么你应该考虑使用多个基础资源名
+一般来说，如果仅仅是为了保证资源的唯一性，`Varient`可以使用从`01`开始的两位数字来表示。例如，如果你要制作一堆环境中使用的石头资源，那么他们应该命名为`Rock_01`, `Rock_02`, `Rock_03`等等。除非特殊需要，不要让数字超过三位数，如果你真的需要超过100个的资源序列，那么你应该考虑使用多个基础资源名
 
 基于你所制作的资源扩展属性，你可以把多个扩展名串联起来。例如，如果你在制作一套地板所使用的资源，那么你的资源除了使用`Flooring`作为基本名，扩展名可以使用多个，例如`Flooring_Marble_01`, `Flooring_Maple_01`, `Flooring_Tile_Squares_01`。
 
@@ -291,10 +291,10 @@ Gamemakin LLC 有一个公开的讨论板块，地址是http://discord.gamemak.i
 
 <a name="anc-textures-packing"</a>
 <a name="1.2.6.1"></a>
-#### 1.2.6.1 纹理打包 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+#### 1.2.6.1 纹理合并 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 把多张纹理存于一个纹理文件中是很常见的方法，比如通常可以把自发光(Emissive), 粗糙度(Roughness), 环境光(Ambient Occlusion)以RGB通道的形式保存在纹理中，然后在文件的后缀中，注明这些信息，例如`_EGO`
 
-> 一般来说，在纹理的Diffuse信息中保存Alpha/Opacity信息是很常见的，这时在`_D`后缀中可以加入`A`也可以不用加
+> 一般来说，在纹理的Diffuse信息中附带Alpha/Opacity信息是很常见的，这时在`_D`后缀中可以加入`A`也可以不用加
 
 不推荐同时把RGBA四个通道的信息保存在一张纹理中，这是由于带有Alpha通道的纹理要比不带的占用更多的资源，除非Alpha信息是以蒙版(Mask)的形式保存在Diffuse/Albedo通道中。
 
@@ -569,7 +569,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是http://discord.gamemak.i
 
 记住，尽量使用不浪费大家的时间的方法去解释你的地图如何打开。比如通过子目录的方法去组织地图资源，例如建立 `Maps/Campaign1/` 或 `Maps/Arenas`，但最重要的是一定要都放在`/Content/Project/Maps`
 
-This also simplifies the job of cooking for engineers. Wrangling levels for a build process can be extremely frustrating if they have to dig through arbitrary folders for them. If a team's maps are all in one place, it is much harder to accidentally not cook a map in a build. It also simplifies lighting build scripts as well QA processes.
+这也有助于产品的打版本工作，如果工程里的地图保存的到处都是，版本工程师还要到处去找，就让人很恼火了，而把地图放在一个地方，做版本时就很难漏掉某个地图，对于烘培光照贴图或者质量检查都有利。
 
 <a name="2.5"></a>
 <a name="structure-core"></a>
@@ -1106,6 +1106,6 @@ Copyright (c) 2016 Gamemakin LLC
 
 查看版权协议 [LICENSE](/LICENSE)
 
-**[⬆ 回到最顶端](#table-of-contents)**
+**[⬆ 回到最顶端](#toc)**
 
 # };
