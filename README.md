@@ -158,7 +158,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是http://discord.gamemak.i
 
 当给一个资源命名的时候，请参照以下表格来决定在[资本资源名](#base-asset-name)前后所使用的前缀和后缀
 
-#### 列表
+#### 目录
 
 > 1.2.1 通用类型[Most Common](#anc-common)
 
@@ -449,7 +449,7 @@ Gamemakin LLC 有一个公开的讨论板块，地址是http://discord.gamemak.i
 
 使用这种目录结构的原因列在下面
 
-### 列表
+### 目录
 
 > 2.1 文件夹命名[Folder Names](#structure-folder-names)
 
@@ -629,74 +629,75 @@ This also simplifies the job of cooking for engineers. Wrangling levels for a bu
 
 <a name="3"></a>
 <a name="bp"></a>
-## 3. Blueprints ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
+## 3. 蓝图 ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
 
-This section will focus on Blueprint classes and their internals. When possible, style rules conform to [Epic's Coding Standard](https://docs.unrealengine.com/latest/INT/Programming/Development/CodingStandard).
+这一章会专注于蓝图和蓝图的实现。如果可能的话，本规则和[Epic官方提供的标准](https://docs.unrealengine.com/latest/INT/Programming/Development/CodingStandard)一致。
 
 Remember: Blueprinting badly bears blunders, beware! (Phrase by [KorkuVeren](http://github.com/KorkuVeren))
+(译者: 这句不懂...)
 
-### Sections
+### 目录
 
-> 3.1 [Compiling](#bp-compiling)
+> 3.1 编译[Compiling](#bp-compiling)
 
-> 3.2 [Variables](#bp-vars)
+> 3.2 变量[Variables](#bp-vars)
 
-> 3.3 [Functions](#bp-functions)
+> 3.3 函数[Functions](#bp-functions)
 
-> 3.4 [Graphs](#bp-graphs)
+> 3.4 图形节点[Graphs](#bp-graphs)
 
 <a name="3.1"></a>
 <a name="bp-compiling"></a>
-### 3.1 Compiling ![#](https://img.shields.io/badge/lint-supported-green.svg)
+### 3.1 编译 ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
-All blueprints should compile with zero warnings and zero errors. You should fix blueprint warnings and errors immediately as they can quickly cascade into very scary unexpected behavior.
+需要保证所有蓝图在编译时0警告和0错误。你应该尽快修复所有警告和异常，以免它们造成可怕的麻烦。
 
-Do *not* submit broken blueprints to source control. If you must store them on source control, shelve them instead.
+*绝对不要*提交那些断开的蓝图，如果你需要通过源码服务器保存，那么必须暂时搁置它们
 
-Broken blueprints can cause problems that manifest in other ways, such as broken references, unexpected behavior, cooking failures, and frequent unneeded recompilation. A broken blueprint has the power to break your entire game.
+断开的蓝图有巨大的破坏力，而且会在蓝图之外展现威力，比如造成引用失效，未定义的行为，烘培失败，或者频繁的重新编译。一个断开的蓝图可能会毁掉整个项目。
 
 <a name="3.2"></a>
 <a name="bp-vars"></a>
-### 3.2 Variables ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
+### 3.2 变量 ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
 
-The words `variable` and `property` may be used interchangably.
+变量(`variable`)和属性(`property`)这两个词经常是可以互换的。
 
-#### Sections
+#### 目录
 
-> 3.2.1 [Naming](#bp-vars)
+> 3.2.1 命名[Naming](#bp-vars)
 
-> 3.2.2 [Editable](#bp-vars-editable)
+> 3.2.2 可编辑行[Editable](#bp-vars-editable)
 
-> 3.2.3 [Categories](#bp-vars-categories)
+> 3.2.3 分类[Categories](#bp-vars-categories)
 
-> 3.2.4 [Access](#bp-vars-access)
+> 3.2.4 权限[Access](#bp-vars-access)
 
-> 3.2.5 [Advanced](#bp-vars-advanced)
+> 3.2.5 高级[Advanced](#bp-vars-advanced)
 
-> 3.2.6 [Transient](#bp-vars-transient)
+> 3.2.6 临时变量[Transient](#bp-vars-transient)
 
-> 3.2.7 [SaveGame](#bp-vars-savegame)
+> 3.2.7 游戏存档[SaveGame](#bp-vars-savegame)
 
-> 3.2.8 [Config](#bp-vars-config)
+> 3.2.8 配置[Config](#bp-vars-config)
 
 <a name="3.2.1"></a>
 <a name="bp-var-naming"></a>
-#### 3.2.1 Naming ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
+#### 3.2.1 命名规范 ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
 
 <a name="3.2.1.1"></a>
 <a name="bp-var-naming-nouns"></a>
-##### 3.2.1.1 Nouns ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+##### 3.2.1.1 使用名词 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-All non-boolean variable names must be clear, unambiguous, and descriptive nouns.
+所有非布尔类型的变量必须使用简短、清晰并且意义明确的名词作为变量名。
 
 <a name="3.2.1.2"></a>
 <a name="bp-var-naming-case"></a>
 ##### 3.2.1.2 PascalCase ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
-All non-boolean variables should be in the form of [PascalCase](#terms-cases).
+所有非布尔类型的变量的大小写需要遵守[PascalCase](#terms-cases)规则。
 
 <a name="3.2.1.2e"></a>
-###### 3.2.1.2e Examples:
+###### 3.2.1.2e 范例:
 
 * `Score`
 * `Kills`
@@ -707,48 +708,48 @@ All non-boolean variables should be in the form of [PascalCase](#terms-cases).
 
 <a name="3.2.1.3"></a>
 <a name="bp-var-bool-prefix"></a>
-##### 3.2.1.3 Boolean `b` Prefix ![#](https://img.shields.io/badge/lint-supported-green.svg)
+##### 3.2.1.3 布尔变量需要前缀 `b`  ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
-All booleans should be named in PascalCase but prefixed with a lowercase `b`.
+所有布尔类型变量需要遵守[PascalCase](#terms-cases)规则，但前面需要增加小写的`b`做前缀。
 
-Example: Use `bDead` and `bEvil`, **not** `Dead` and `Evil`.
+例如: 用 `bDead` 和 `bEvil`, **不要** 使用`Dead` 和 `Evil`.
 
-UE4 Blueprint editors know not to include the `b` in user-friendly displays of the variable.
+UE4的蓝图编辑器在显示变量名称时，会自动把前缀`b`去掉
 
 <a name="3.2.1.4"></a>
 <a name="bp-var-bool-names"></a>
-##### 3.2.1.4 Boolean Names ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
+##### 3.2.1.4 布尔类型变量命名规则 ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
 
 <a name="3.2.1.4.1"></a>
-###### 3.2.1.4.1 General And Independent State Information ![#](https://img.shields.io/badge/lint-supported-green.svg)
+###### 3.2.1.4.1 一般的独立信息 ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
-All booleans should be named as descriptive adjectives when possible if representing general information. Do not include words that phrase the variable as a question, such as `Is`. This is reserved for functions.
+布尔类型变量如果用来表示一般的信息，名字应该使用描述性的单词，不要包含具有提问含义的词汇，比如`Is`，这个词是保留单词。
 
-Example: Use `bDead` and `bHostile` **not** `bIsDead` and `bIsHostile`.
+例如：使用`bDead` and `bHostile`，**不要**使用`bIsDead` and `bIsHostile`。
 
-Try to not use verbs such as `bRunning`. Verbs tend to lead to complex states.
+也不要使用类似于`bRunning`这样的动词，动词会让含义变得复杂。
 
 <a name="3.2.1.4.2"></a>
-###### 3.2.1.4.2 Complex States ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+###### 3.2.1.4.2 复杂状态 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-Do not to use booleans to represent complex and/or dependent states. This makes state adding and removing complex and no longer easily readable. Use an enumeration instead.
+不要使用布尔变量保存复杂的，或者需要依赖其他属性的状态信息，这会让状态变得复杂和难以理解，如果需要尽量使用枚举来代替。
 
-Example: When defining a weapon, do **not** use `bReloading` and `bEquipping` if a weapon can't be both reloading and equipping. Define an enumeration named `EWeaponState` and use a variable with this type named `WeaponState` instead. This makes it far easier to add new states to weapons.
+例如：当定义一个武器时，**不要**使用`bReloading` 和 `bEquipping`这样的变量，因为一把武器不可能即在reloading状态又在equipping状态，所以应该使用定义一个叫做`EWeaponState`的枚举，然后用一个枚举变量`WeaponState`来代替，这也使得以后增加新的状态更加容易。
 
-Example: Do **not** use `bRunning` if you also need `bWalking` or `bSprinting`. This should be defined as an enumeration with clearly defined state names.
+例如：**不要**使用`bRunning`这样的变量，因为你以后有可能还会增加`bWalking` 或者 `bSprinting`，这也应该使用一个枚举来非常清晰的定义这样的状态。
 
 <a name="3.2.1.5"></a>
 <a name="bp-vars-naming-context"></a>
-##### 3.2.1.5 Considered Context ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+##### 3.2.1.5 考虑上下文 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-All variable names must not be redundant with their context as all variable references in Blueprint will always have context.
+蓝图中的变量命名时需要考虑上下文环境，避免重复不必要的定义。
 
 <a name="3.2.1.5e"></a>
-###### 3.2.1.5e Examples:
+###### 3.2.1.5e 例如:
 
-Consider a Blueprint called `BP_PlayerCharacter`.
+假设有一个蓝图名为 `BP_PlayerCharacter`.
 
-**Bad**
+**不好的命名**
 
 * `PlayerScore`
 * `PlayerKills`
@@ -757,9 +758,9 @@ Consider a Blueprint called `BP_PlayerCharacter`.
 * `CharacterSkills`
 * `ChosenCharacterSkin`
 
-All of these variables are named redundantly. It is implied that the variable is representative of the `BP_PlayerCharacter` it belongs to because it is `BP_PlayerCharacter` that is defining these variables.
+这些变量的命名都很臃肿。因为这些变量都是属于一个角色蓝图`BP_PlayerCharacter`的，没必要在变量中再重复这一点。
 
-**Good**
+**好的命名**
 
 * `Score`
 * `Kills`
@@ -770,93 +771,92 @@ All of these variables are named redundantly. It is implied that the variable is
 
 <a name="3.2.1.6"></a>
 <a name="bp-vars-naming-atomic"></a>
-##### 3.2.1.6 Do _Not_ Include Atomic Type Names ![#](https://img.shields.io/badge/lint-supported-green.svg)
+##### 3.2.1.6 **不要**在变量中包含原生变量类型名 ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
-Atomic or primitive variables are variables that represent data in their simplest form, such as booleans, integers, floats, and enumerations.
+所谓原生变量是指那些最简单的保存数据的变量类型，比如布尔类型、整数、浮点数以及枚举。
 
-Strings and vectors are considered atomic in terms of style when working with Blueprints, however they are technically not atomic.
+String和vectors在蓝图中也属于原生变量类型，但严格来讲它们其实不是。
 
-> While vectors consist of three floats, vectors are often able to be manipulated as a whole, same with rotators.
+> 由三个浮点数组成的vector经常被视为一个整体数据类型，比如旋转向量。
 
-> Do _not_ consider Text variables as atomic, they are secretly hiding localization functionality. The atomic type of a string of characters is `String`, not `Text`.
+> 文本类型变量(Text)不属于原生类型，因为它们内部还包含有国际化信息。原生类型的字符串变量类型是`String` , 而不是`Text`。
 
-Atomic variables should not have their type name in their name.
+原生类型的变量名中不应该包含变量类型名。
 
-Example: Use `Score`, `Kills`, and `Description` **not** `ScoreFloat`, `FloatKills`, `DescriptionString`.
+例如：使用`Score`, `Kills`, 以及 `Description`，**不要**使用`ScoreFloat`, `FloatKills`, `DescriptionString`。
 
-The only exception to this rule is when a variable represents 'a number of' something to be counted _and_ when using a name without a variable type is not easy to read.
+但也有例外情况，当变量的含义包含了"多少个"这样的信息，**并且**仅用一个名字无法清晰的表达出这个含义时。
 
-Example: A fence generator needs to generate X number of posts. Store X in `NumPosts` or `PostsCount` instead of `Posts` as `Posts` may potentially read as an Array of a variable type named `Post`.
+比如：游戏中一个围墙生成器，需要有一个变量保存在X轴上的生成数量，那么需要使用`NumPosts` 或者 `PostsCount`这样的变量，因为仅仅使用`Posts`可能被误解为某个保存Post的数组
 
 <a name="3.2.1.7"></a>
 <a name="bp-vars-naming-complex"></a>
-##### 3.2.1.7 Do Include Non-Atomic Type Names ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+##### 3.2.1.7 非原生类型的变量，需要包含变量类型名 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-Non-atomic or complex variables are variables that represent data as a collection of atomic variables. Structs, Classes, Interfaces, and primitives with hidden behavior such as `Text` and `Name` all qualify under this rule.
+非原生类型的变量是指那些通过数据结构保存一批原生类型的复杂变量类型，比如Structs、Classes、Interface，还有一些有类似行为的原生变量比如`Text` 和 `Name`也属于此列。
 
-> While an Array of an atomic variable type is a list of variables, Arrays do not change the 'atomicness' of a variable type.
+> 如果仅仅是原生变量组成的数组，那么这个数组仍然属于原生类型
 
-These variables should include their type name while still considering their context.
+这些变量的名字应该包含数据类型名，但同时要考虑不要重复上下文。
 
-If a class owns an instance of a complex variable, i.e. if a `BP_PlayerCharacter` owns a `BP_Hat`, it should be stored as the variable type as without any name modifications.
+如果一个类中包拥有一个复杂变量的实例，比如一个`BP_PlayerCharacter`中有另一个变量`BP_Hat`，那么这个变量的名字就不需要包含变量类型了。
 
-Example: Use `Hat`, `Flag`, and `Ability` **not** `MyHat`, `MyFlag`, and `PlayerAbility`.
+例如: 使用 `Hat`、`Flag`以及 `Ability`，**不要**使用`MyHat`、`MyFlag` 和 `PlayerAbility`
 
-If a class does not own the value a complex variable represents, you should use a noun along with the variable type.
+但是，如果一个类并不拥有这个属性，那么就需要在这个属性的名字中包含有类型的名字了
 
-Example: If a `BP_Turret` has the ability to target a `BP_PlayerCharacter`, it should store its target as `TargetPlayer` as when in the context of `BP_Turret` it should be clear that it is a reference to another complex variable type that it does not own.
+例如：一个蓝图类`BP_Turret`用来顶一个炮塔，它拥有瞄准`BP_PlayerCharacter`作为目标的能力，那么它内部会保存一个变量作为目标，名字应该是`TargetPlayer`，这个名字非常清楚的指明了这个变量的数据类型是什么。
 
 
 <a name="3.2.1.8"></a>
 <a name="bp-vars-naming-arrays"></a>
-##### 3.2.1.8 Arrays ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
+##### 3.2.1.8 数组 ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
 
-Arrays follow the same naming rules as above, but should be named as a plural noun.
+数组的命名规则通常和所包含的元素的规则一样，但注意要用复数。
 
-Example: Use `Targets`, `Hats`, and `EnemyPlayers`, **not** `TargetList`, `HatArray`, `EnemyPlayerArray`.
-
+例如：用`Targets`、`Hats`以及 `EnemyPlayers`，**不要**使用`TargetList`、`HatArray` 或者 `EnemyPlayerArray`
 
 <a name="3.2.2"></a>
 <a name="bp-vars-editable"></a>
-#### 3.2.2 Editable Variables ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
+#### 3.2.2 可编辑变量 ![#](https://img.shields.io/badge/lint-partial_support-yellow.svg)
 
-All variables that are safe to change the value of in order to configure behavior of a blueprint should be marked as `Editable`.
+所有可以安全的更改数据内容的变量都需要被标记为`Editable`
 
-Conversely, all variables that are not safe to change or should not be exposed to designers should _not_ be marked as editable, unless for engineering reasons the variable must be marked as `Expose On Spawn`.
+相反，所有不能更改或者不能暴露给设计师的变量都**不能**表上可编辑标志，除非因为引擎的原因，这些变量需要被标为`Expose On Spawn`
 
-Do not arbitrarily mark variables as `Editable`.
+总之不要轻易使用`Editable`标记
 
 <a name="3.2.2.1"></a>
 <a name="bp-vars-editable-tooltips"></a>
 ##### 3.2.2.1 Tooltips ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-All `Editable` variables, including those marked editable just so they can be marked as `Expose On Spawn`, should have a description in their `Tooltip` fields that explains how changing this value affects the behavior of the blueprint.
+对于所有标记为`Editable`的变量，包括被标记为 `Expose On Spawn`的变量，都应该在其`Tooltip`内填写关于如何改变变量值，以及会产生何种效果的说明。
 
 <a name="3.2.2.2"></a>
 <a name="bp-vars-editable-ranges"></a>
-##### 3.2.2.2 Slider And Value Ranges ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+##### 3.2.2.2 滑动条(Slider)以及取值范围 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-All `Editable` variables should make use of slider and value ranges if there is ever a value that a variable should _not_ be set to.
+对于可编辑的变量，如果不适合直接输入具体数值，那么应该通过一个滑动条(Slider)并且加上取值范围来让设计师输入。
 
-Example: A blueprint that generates fence posts might have an editable variable named `PostsCount` and a value of -1 would not make any sense. Use the range fields to mark 0 as a minimum.
+举例：一个产生围墙的蓝图，拥有一个`PostsCount`的变量，那么-1显然适合不合理的输入，所以需要设上取值范围注明0是最小值
 
-If an editable variable is used in a Construction Script, it should have a reasonable Slider Range defined so that someone can not accidentally assign it a large value that could crash the editor.
+如果在构造脚本中需要一个可编辑变量，那么一定要首先定义一个合理的取值范围，要不然可能会有人设上一个非常大的值造成编辑器崩溃。
 
-A Value Range only needs to be defined if the bounds of a value are known. While a Slider Range prevents accidental large number inputs, an undefined Value Range allows a user to specify a value outside the Slider Range that may be considered 'dangerous' but still valid.
+一个变量的取值范围只有当明确知道其范围时才需要定义，因为滑块的取值范围的确能够阻止用户输入危险数值，但用户仍然能够通过手动输入的方式输入一个超出滑块范围的值给变量，如果变量的取值范围未定义，那么这个值就会变得'很危险'但还是在合理的。
 
 <a name="3.2.3"></a>
 <a name="bp-vars-categories"></a>
-#### 3.2.3 Categories ![#](https://img.shields.io/badge/lint-supported-green.svg)
+#### 3.2.3 分类 ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
-If a class has only a small number of variables, categories are not required.
+如果一个类的变量很少，那么没有必要使用分类
 
-If a class has a moderate amount of variables (5-10), all `Editable` variables should have a non-default category assigned. A common category is `Config`.
+如果一个类的变量规模达到中等(5-10)，那么所有`可编辑`的变量应该自己的分类，而不应该放在缺省分类中，通常叫做 `Config`
 
-If a class has a large amount of variables, all `Editable` variables should be categorized into sub-categories using the category `Config` as the base category. Non-editable variables should be categorized into descriptive categories describing their usage. 
+如果类中的变量的数量非常大，那么所有可编辑的变量都应该放在`Config`分类的子分类下，所有不可编辑的变量应该根据它们的用途建立相关分类保存
 
-> You can define sub-categories by using the pipe character `|`, i.e. `Config | Animations`.
+> 通过在分类名中添加字符`|`，你可以直接建立子分类，比如`Config | Animations`
 
-Example: A weapon class set of variables might be organized as:
+举例：一个武器的类中的变量分类目录大致如下：
 
 	|-- Config
 	|	|-- Animations
@@ -870,84 +870,84 @@ Example: A weapon class set of variables might be organized as:
 
 <a name="3.2.4"></a>
 <a name="bp-vars-access"></a>
-#### 3.2.4 Variable Access Level ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+#### 3.2.4 变量的访问权限 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-In C++, variables have a concept of access level. Public means any code outside the class can access the variable. Protected means only the class and any child classes can access this variable internally. Private means only this class and no child classes can access this variable.
+在C++中，变量的访问类型由类成员的属性决定，Public类型的表示其他类都可以访问，Protetced类型的成员表示子类可以访问，Private类型变量表示只有类内部函数可以访问此变量。
 
-Blueprints do not have a defined concept of protected access currently.
+蓝图并没有类似的权限访问设计。
 
-Treat `Editable` variables as public variables. Treat non-editable variables as protected variables.
+就是视`可编辑`类型的变量作为Public类型变量，视不可编辑的变量作为Protected类型变量。
 
 <a name="3.2.4.1"></a>
 <a name="bp-vars-access-private"></a>
-##### 3.2.4.1 Private Variables ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+##### 3.2.4.1 私有变量 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-Unless it is known that a variable should only be accessed within the class it is defined and never a child class, do not mark variables as private. Until variables are able to be marked `protected`, reserve private for when you absolutely know you want to restrict child class usage.
+尽量不要把变量生命为private类型，除非变量一开始就打算永远被类内部访问，并且类本身也没打算被继承。尽量用`protected`，private类型用在当你有非常清楚的理由要去限制子类的能力。
 
 <a name="3.2.5"></a>
 <a name="bp-vars-advanced"></a>
-#### 3.2.5 Advanced Display ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+#### 3.2.5 高级显示 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-If a variable should be editable but often untouched, mark it as `Advanced Display`. This makes the variable hidden unless the advanced display arrow is clicked.
+如果一个变量可以被编辑，但通常不会有人碰到，那么就把它标记为高级显示`Advanced Display`。这些变量在蓝图中会缺省隐藏，除非点击节点上的高级显示箭头。
 
-To find the `Advanced Display` option, it is listed as an advanced displayed variable in the variable details list.
+有意思的是，`Advanced Display`这个选项本身，在编辑器的变量属性中也是一个高级显示类型的。
 
 <a name="3.2.6"></a>
 <a name="bp-vars-transient"></a>
-#### 3.2.6 Transient Variables ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+#### 3.2.6 Transient 变量 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-All variables that are not editable and have a initial value of zero or null should be marked as `Transient`.
+所有不能编辑并且初始值为0或者null的变量应该被标记为`Transient`
 
-Transient variables are variables that do not need to have their value saved and loaded and have an initial value of zero or null. This is useful for references to other objects and actors who's value isn't known until run-time.
+Transient类型的变量是指那些不需要被序列化（保存或者加载），并且初始值为0或者null的变量。一般用在引用其他对象，它们的值只有在运行时才知道。
 
-This forces the variable to always initialize as zero or null, prevents the editor from ever saving a reference to it, and speeds up saving and loading of the blueprint class.
+这种属性的变量会被强制初始化为0或者null，并且不允许编辑器序列化它，以加快蓝图的加载时间。
 
 <a name="3.2.7"></a>
 <a name="bp-vars-savegame"></a>
-#### 3.2.7 SaveGame Variables ![#](https://img.shields.io/badge/lint-supported-green.svg)
+#### 3.2.7 SaveGame变量 ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
-Only use the SaveGame property of variables when inside a class derived from `SaveGame`. Use this property only if the `SaveGame` class should save this value.
+只有从`SaveGame`继承的子类中的成员变量才能够使用SaveGame属性，并且确保该变量应该被保存时才把这个属性设置上
 
-Do **not** mix `SaveGame` and `Transient`, this does not make any sense.
+绝对**不要**将`SaveGame` 和 `Transient`同时使用，这是明显不合理的。
 
 <a name="3.2.8"></a>
 <a name="bp-vars-config"></a>
-#### 3.2.8 Config Variables ![#](https://img.shields.io/badge/lint-supported-green.svg)
+#### 3.2.8 Config变量 ![#](https://img.shields.io/badge/lint-supported-green.svg)
 
-Do not use the `Config Variable` flag. This makes it harder for designers to control blueprint behavior. Config variables should only be used in C++ for rarely changed variables. Think of them as `Advanced Advanced Display` variables.
+不要使用`Config Variable`这个标记，这会让设计师在控制蓝图行为上更加困难。这个标记一般用在C++中，用来标记那些极少被改变的变量，你可以认为它们是那些被标上`Advanced Advanced Display`的变量
 
 <a name="3.3"></a>
 <a name="bp-functions"></a>
-### 3.3 Functions, Events, and Event Dispatchers ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
+### 3.3 函数、事件以及事件派发器 ![#](https://img.shields.io/badge/lint-unsupported-red.svg)
 
-This section describes how you should author functions, events, and event dispatchers. Everything that applies to functions also applies to events, unless otherwise noted.
+这一节用来解释应该如何管理函数、事件以及事件派发器。除非特殊说明，所有适用于函数的规则，同样适用于事件。
 
 <a name="3.3.1"></a>
 <a name="bp-funcs-naming"></a>
-#### 3.3.1 Function Naming
+#### 3.3.1 函数命名
 
-The naming of functions, events, and event dispatchers is critically important. Based on the name alone, certain assumptions can be made about functions. For example:
+对于函数、事件以及事件派发器的命名极其重要，仅仅从一个名字本身，就有很多条件要考虑，比如说：
 
-* Is it a pure function?
-* Is it fetching state information?
-* Is it a handler?
-* Is it an RPC?
-* What is its purpose?
+* 是纯虚函数吗？?
+* 是状态查询函数吗?
+* 是事件相应函数吗?
+* 是远程调用函数吗?
+* 函数的目的是什么？
 
-These questions and more can all be answered when functions are named appropriately.
+如果命名得当，这些问题甚至更多问题的答案会在名字中体现出来。
 
 <a name="3.3.1.1"></a>
 <a name="bp-funcs-naming-verbs"></a>
-#### 3.3.1.1 All Functions Should Be Verbs
+#### 3.3.1.1 所有函数的命名都应该是动词
 
-All functions and events perform some form of action, whether its getting info, calculating data, or causing something to explode. Therefore, all functions should all start with verbs. They should be worded in the present tense whenever possible. They should also have some context as to what they are doing.
+所有函数和事件执行者都是需要做一些动作，可能是去获取信息，也可能是数据计算，或者搞点什么事情。因此，所有函数都应该用动词开始，并且用一般现代时态，并且有上下文来表明它们究竟在做什么
 
-`OnRep` functions, event handlers, and event dispatchers are an exception to this rule.
+`OnRep` 这样的相应函数，事件具柄和事件派发器的命名不遵守这个规则。
 
-Good examples:
+好的例子:
 
-* `Fire` - Good example if in a Character / Weapon class, as it has context. Bad if in a Barrel / Grass / any ambiguous class.
-* `Jump` - Good example if in a Character class, otherwise, needs context.
+* `Fire` - 如果类是一个角色或者武器，那么这是一个好命名，如果是木桶，玻璃，那这个函数就会让人困惑了。
+* `Jump` - 如果类是一个角色，那么这是个好名字，如果不是，那么需要一些上下文来解释这个函数的含义
 * `Explode`
 * `ReceiveMessage`
 * `SortPlayerArray`
@@ -955,31 +955,31 @@ Good examples:
 * `GetCoordinates`
 * `UpdateTransforms`
 * `EnableBigHeadMode`
-* `IsEnemy` - ["Is" is a verb.](http://writingexplained.org/is-is-a-verb)
+* `IsEnemy` - ["Is" 是个动词](http://writingexplained.org/is-is-a-verb)
 
-Bad examples:
+不好的例子:
 
-* `Dead` - Is Dead? Will deaden?
+* `Dead` - 是已经死了？还是死的动作?
 * `Rock`
-* `ProcessData` - Ambiguous, these words mean nothing.
-* `PlayerState` - Nouns are ambiguous.
-* `Color` - Verb with no context, or ambiguous noun.
+* `ProcessData` - 无意义，这个名字等于没说.
+* `PlayerState` - 不能用名词
+* `Color` - 如果是动词，那么缺少上下文，如果是名词，也不行.
 
 <a name="3.3.1.2"></a>
 <a name="bp-funcs-naming-onrep"></a>
-#### 3.3.1.2 Property RepNotify Functions Always `OnRep_Variable`
+#### 3.3.1.2 属性的状态变化响应函数应该命名为`OnRep_Variable`
 
-All functions for replicated with notification variables should have the form `OnRep_Variable`. This is forced by the Blueprint editor. If you are writing a C++ `OnRep` function however, it should also follow this convention when exposing it to Blueprints.
+所有用来响应状态变化的函数应该用`OnRep_Variable`的形式，这是由蓝图编辑器强制规定的，如果你在C++中写`OnRep`函数，应该同样遵守这个规则。
 
 <a name="3.3.1.3"></a>
 <a name="bp-funcs-naming-bool"></a>
-#### 3.3.1.3 Info Functions Returning Bool Should Ask Questions
+#### 3.3.1.3 返回布尔变量的信息查询函数应该是问询函数
 
-When writing a function that does not change the state of or modify any object and is purely for getting information, state, or computing a yes/no value, it should ask a question. This should also follow [the verb rule](#bp-funcs-naming-verbs).
+如果一个函数不改变类的状态，并且只是返回信息、状态或者计算返回给调用者yes/no，这应该是一个问询函数。同样遵守[动词规则](#bp-funcs-naming-verbs)。
 
-This is extremely important as if a question is not asked, it may be assumed that the function performs an action and is returning whether that action succeeded.
+非常重要的是，应该假定这样的函数其实就是执行某种动作，并且返回动作是否执行成功。
 
-Good examples:
+好的例子:
 
 * `IsDead`
 * `IsOnFire`
@@ -987,30 +987,30 @@ Good examples:
 * `IsSpeaking`
 * `IsHavingAnExistentialCrisis`
 * `IsVisible`
-* `HasWeapon` - ["Has" is a verb.](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html)
-* `WasCharging` - ["Was" is past-tense of "be".](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html) Use "was" when referring to 'previous frame' or 'previous state'.
-* `CanReload` - ["Can" is a verb."](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html)
+* `HasWeapon` - ["Has" 是动词.](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html)
+* `WasCharging` - ["Was" 是动词"be"的过去式](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html) 用 "was"表示查询以前的状态
+* `CanReload` - ["Can"是动词](http://grammar.yourdictionary.com/parts-of-speech/verbs/Helping-Verbs.html)
 
-Bad examples:
+坏的例子:
 
-* `Fire` - Is on fire? Will fire? Do fire?
-* `OnFire` - Can be confused with event dispatcher for firing.
-* `Dead` - Is dead? Will deaden?
-* `Visibility` - Is visible? Set visibility? A description of flying conditions?
+* `Fire` - 是查询正在开火？还是查询能不能开火？
+* `OnFire` - 有可能和事件派发器函数混淆
+* `Dead` - 是查询已经死亡？还是查询会不会死亡？
+* `Visibility` - 是查询可见状态？还是设置可见状态？
 
 <a name="3.3.1.4"></a>
 <a name="bp-funcs-naming-eventhandlers"></a>
-#### 3.3.1.4 Event Handlers and Dispatchers Should Start With `On`
+#### 3.3.1.4 事件的响应函数和派发函数都应该以`On`开头
 
-Any function that handles an event or dispatches an event should with `On` and continue to follow [the verb rule](#bp-funcs-naming-verbs). The verb may move to the end however if past-tense reads better.
+事件的响应函数和派发函数都应该以`On`开头，然后遵守[动词规则](#bp-funcs-naming-verbs)，如果是过去式，那么动词应该移到最后以方便阅读
 
-[Collocations](http://dictionary.cambridge.org/us/grammar/british-grammar/about-words-clauses-and-sentences/collocation) of the word `On` are exempt from following the verb rule.
+在遵守动词规则的时候，需要优先考虑英语中的[固定句式](http://dictionary.cambridge.org/us/grammar/british-grammar/about-words-clauses-and-sentences/collocation) 
 
-`Handle` is not allowed. It is 'Unreal' to use `On` instead of `Handle`, while other frameworks may prefer to use `Handle` instead of `On`.
+有一些系统用`Handle`来表示事件响应，但在'Unreal'用的是`On`而不是`Handle`，
 
-Good examples:
+好的例子:
 
-* `OnDeath` - Common collocation in games
+* `OnDeath` - 游戏中非常常见
 * `OnPickup`
 * `OnReceiveMessage`
 * `OnMessageRecieved`
@@ -1018,7 +1018,7 @@ Good examples:
 * `OnClick`
 * `OnLeave`
 
-Bad examples:
+坏的例子:
 
 * `OnData`
 * `OnTarget`
@@ -1027,89 +1027,85 @@ Bad examples:
 
 <a name="3.3.1.5"></a>
 <a name="bp-funcs-naming-rpcs"></a>
-#### 3.3.1.5 Remote Procedure Calls Should Be Prefixed With Target
+#### 3.3.1.5 远程调用函数应该用目标作为前缀
 
-Any time an RPC is created, it should be prefixed with either `Server`, `Client`, or `Multicast`. No exceptions.
+任何时候创建RPC函数，都应该把目标作为前缀放在前面，例如`Server`、 `Client`或者 `Multicast`，没有例外。
 
-After the prefix, follow all other rules regarding function naming.
+前缀之后的部分，遵守上面的其他规则。
 
-Good examples:
+好的例子:
 
 * `ServerFireWeapon`
 * `ClientNotifyDeath`
 * `MulticastSpawnTracerEffect`
 
-Bad examples:
+坏的例子:
 
-* `FireWeapon` - Does not indicate its an RPC of some kind.
-* `ServerClientBroadcast` - Confusing.
-* `AllNotifyDeath` - Use `Multicast`, never `All`.
-* `ClientWeapon` - No verb, ambiguous.
+* `FireWeapon` - 没有使用目标前缀
+* `ServerClientBroadcast` - 混淆.
+* `AllNotifyDeath` - 用 `Multicast`, 不要用 `All`.
+* `ClientWeapon` - 没有用动词, 让人困惑.
 
 
 <a name="3.3.2"></a>
 <a name="bp-funcs-return"></a>
-#### 3.3.2 All Functions Must Have Return Nodes
+#### 3.3.2 所有函数都应该有返回节点
 
-All functions must have return nodes, no exceptions.
+所有函数都应该有返回节点，没有例外。
 
-Return nodes explicitly note that a function has finished its execution. In a world where blueprints can be filled with `Sequence`, `ForLoopWithBreak`, and backwards reroute nodes, explicit execution flow is important for readability, maintenance, and easier debugging.
+返回节点明确标注了蓝图到此执行完毕。蓝图中的结构有可能有并行结构`Sequence`、循环结构`ForLoopWithBreak`或者逆向的回流节点组成，明确结束节点使蓝图易于阅读维护和调试。
 
-The Blueprint compiler is able to follow the flow of execution and will warn you if there is a branch of your code with an unhandled return or bad flow if you use return nodes.
+如果启用了返回节点，当你的蓝图中有分支没有正常返回，或者流程有问题，蓝图的编译器会提出警告。
 
-In situations like where a programmer may add a pin to a Sequence node or add logic after a for loop completes but the loop iteration might return early, this can often result in an accidental error in code flow. The warnings the Blueprint compiler will alert everyone of these issues immediately.
+比如说，有程序员在并行序列中添加了一个新的分支，或者在循环体外添加逻辑但没有考虑到循环中的意外返回，那么这些情况都会造成蓝图的执行序列出现意外。蓝图编译器会立即给这些情况提出警告。
 
 <a name="3.4"></a>
 <a name="bp-graphs"></a>
-### 3.4 Blueprint Graphs 
+### 3.4 蓝图图形
 
+本节包含了关于蓝图图形的内容
 This section covers things that apply to all Blueprint graphs.
 
 <a name="3.4.1"></a>
 <a name="bp-graphs-spaghetti"></a>
-#### 3.4.1 No Spaghetti
+#### 3.4.1 不要画‘意面’
 
-Wires should have clear beginnings and ends. You should never have to mentally untangle wires to make sense of a graph. Many of the following sections are dedicated to reducing spaghetti.
+蓝图中所有连线都应该有清晰的开始点和结束点。你的蓝图不应该让阅读者在一堆乱糟糟的线中翻来翻去。以下内容是帮助你避免‘意大利面’样式的蓝图产生。
 
 <a name="3.4.2"></a>
 <a name="bp-graphs-align-wires"></a>
-#### 3.4.2 Align Wires Not Nodes
+#### 3.4.2 保持连线对齐，而不是节点
 
-Always align wires, not nodes. You can't always control the size and pin location on a node, but you can always control the location of a node and thus control the wires. Straight wires provide clear linear flow. Wiggly wires wear wits wickedly. You can straighten wires by using the Straigten Connections command with BP nodes selected. Hotkey: Q
+不要试图让节点对齐，对齐的应该是连线。你无法控制一个节点的大小和上面连接点的位置，但你能通过控制节点的位置来控制连线。笔直的连线让整个蓝图清晰美观，歪歪扭扭的连线会让蓝图丑陋不堪。你可以通过蓝图编辑器提供的功能直接让连线变直，方法是选择好节点，用快捷键Q
 
-Good example: The tops of the nodes are staggered to keep a perfectly straight white exec line.
+好的例子: 所有上面的节点的执行线都保持为直线。
 ![Aligned By Wires](https://github.com/allar/ue4-style-guide/raw/master/images/bp-graphs-align-wires-good.png "Aligned By Wires")
 
-Bad Example: The tops of the nodes are aligned creating a wiggly white exec line.
+不好的例子: 右上角节点的执行线歪了
 ![Bad](https://github.com/allar/ue4-style-guide/raw/master/images/bp-graphs-align-wires-bad.png "Wiggly")
 
-Acceptable Example: Certain nodes might not cooperate no matter how you use the alignment tools. In this situation, try to minimize the wiggle by bringing the node in closer.
+可接受的例子: 有些节点无论你怎么用对齐工具都无法对齐，这种情况下，就尽量缩短它们之间连线的长度。
 ![Acceptable](https://github.com/allar/ue4-style-guide/raw/master/images/bp-graphs-align-wires-acceptable.png "Acceptable")
 
 <a name="3.4.3"></a>
 <a name="bp-graphs-exec-first-class"></a>
-#### 3.4.3 White Exec Lines Are Top Priority
+#### 3.4.3 白色的可执行线优先级最高
 
-If you ever have to decide between straightening a linear white exec line or straightening  data lines of some kind, always straighten the white exec line.
+如果发现白色执行线和其他数据线无法同时对齐，白色执行线的优先级更高。
 
-## Contributors
+## 贡献者
 
 * [Michael Allar](http://allarsblog.com): [GitHub](https://github.com/Allar), [Twitter](https://twitter.com/michaelallar)
 * [CosmoMyzrailGorynych](https://github.com/CosmoMyzrailGorynych)
 * [billymcguffin](https://github.com/billymcguffin)
 * [akenatsu](https://github.com/akenatsu)
 
-## License
+## 版权
 
 Copyright (c) 2016 Gamemakin LLC
 
-See [LICENSE](/LICENSE)
+查看版权协议 [LICENSE](/LICENSE)
 
-**[⬆ Back to Top](#table-of-contents)**
-
-
-## Amendments
-
-We encourage you to fork this guide and change the rules to fit your team's style guide. Below, you may list some amendments to the style guide. This allows you to periodically update your style guide without having to deal with merge conflicts.
+**[⬆ 回到最顶端](#table-of-contents)**
 
 # };
